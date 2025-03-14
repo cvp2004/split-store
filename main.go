@@ -1,12 +1,19 @@
 package main
 
 import (
-	"fmt"
+	"log"
+
+	"github.com/cvp2004/go-dist-storage/p2p"
 )
 
 func main() {
 
-	tr := NewTCPTransport("localhost:4000")
+	tr := p2p.NewTCPTransport(":3000")
 
-    fmt.Println("We, Gucci!")
+	if err := tr.ListenAndAccept(); err != nil {
+		log.Fatal(err)
+	} 
+
+	select {}
+
 };
