@@ -7,25 +7,25 @@ import (
 )
 
 type Decoder interface {
-	Decode(io.Reader, *Message) error
+	Decode(io.Reader, *RPC) error
 }
 
 type GOBDecoder struct{}
 
-func (dec GOBDecoder) Decode(r io.Reader, msg *Message) error {
-	return gob.NewDecoder(r).Decode(msg)
+func (dec GOBDecoder) Decode(r io.Reader, rpc *RPC) error {
+	return gob.NewDecoder(r).Decode(rpc)
 }
 
 type DefaultDecoder struct{}
 
-func (dec DefaultDecoder) Decode(r io.Reader, msg *Message) error {
+func (dec DefaultDecoder) Decode(r io.Reader, rpc *RPC) error {
 
 	bufReader := bufio.NewReader(r)
 	line, err := bufReader.ReadBytes('\n')
 	if err != nil && err != io.EOF {
 		return err
 	}
-	msg.Payload = line
+	rpc.Payload = line
 
 	return nil
 }
